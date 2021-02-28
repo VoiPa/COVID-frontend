@@ -1,7 +1,7 @@
 import React from "react";
-import CovidStats from "../../features/covid-stats/CovidStats";
-const CovidStatsComponent = ()=>{
-    const kazkas = CovidStats.arguments;
-    return kazkas
-}
+import data from "../data";
+const CovidStatsComponent = ( {collection} ) => {
+    console.log(data);
+  return data.map((item) => <li>{item.id}</li> );
+};
 export default CovidStatsComponent;
