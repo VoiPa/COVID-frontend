@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import options from "../select/options";
-const SelectComponent = () => {
-  const [a, setOptions] = useState([]);
+import _ from "lodash";
+
+/* Selection */
+const SelectComponent = ({ countries, onCountryChange, selectedCountry }) => {
+  const [options, setOptions] = useState([]);
   useEffect(() => {
-    const formatedData = options;
-    console.log(options)
-    setOptions(formatedData);
-  }, []);
-  return <Select options={options} />;
+    const formatedCountries = _.map(countries, (item) => ({
+      value: item,
+      label: item,
+    }));
+    setOptions(formatedCountries);
+  }, [countries]);
+  const onSelect = (value) => {
+    onCountryChange(value);
+  };
+  return (
+    <Select
+      options={options}
+      onChange={onSelect}
+      value={_.find(options, item=>item.value===selectedCountry)}
+    />
+  );
 };
 export default SelectComponent;

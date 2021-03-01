@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchByCountry } from '../../services/covid-stats';
+import {fetchByCountry, uniqCountries} from '../../services/covid-stats';
 
 const initialState = {
     collection: null,
@@ -8,6 +8,7 @@ const initialState = {
     error: false,
 };
 
+/* Passing action to reducer */
 const covidStatsSlice = createSlice({
     name: 'covidStatsReducer',
     initialState,
@@ -49,17 +50,17 @@ export const {
 /* Export the reducer, either as a default or named export */ 
 export default reducer;
 
-export const fetch = ({ country }) => async (dispatch, getState) => {
+export const fetch = ({ country}) => async (dispatch, getState) => {
     dispatch(setLoading());
     try {
-        const [payload, payloadCountries] = await Promise.all([
-            fetchByCountry({ country }),
-        ])
-        dispatch(setUniqCountries(payloadCountries));
-        dispatch(setCollection(payload));
+      const [payload, payloadCountries] = await Promise.all([
+        fetchByCountry({ country }),
+        uniqCountries(),
+      ])
+      dispatch(setUniqCountries(payloadCountries));
+      dispatch(setCollection(payload));
     } catch (e) {
-        dispatch(setError(e));
+      dispatch(setError(e));
     }
-};
-
+  };
 
