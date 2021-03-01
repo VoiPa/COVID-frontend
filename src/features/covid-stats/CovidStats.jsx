@@ -4,27 +4,23 @@ import CovidStatsComponent from "../../components/covid-stats/CovidStatsComponen
 import { fetch, destroy } from "./covidStatsSlice";
 
 const CovidStats = () => {
-
-  const { collection } = useSelector(
-    (state) => state.covidStatsReducer
-  );
-  console.log(collection);
-  const [ selectedCountry,setSelectedCountry] = useState("Lithuania");
+  const { collection } = useSelector((state) => state.covidStatsReducer);
+  // console.log(collection);
+  const [selectedCountry, setSelectedCountry] = useState("Russia");
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
       fetch({
-        country: selectedCountry
+        country: selectedCountry,
       })
     );
     return () => dispatch(destroy());
   }, [dispatch, selectedCountry]);
   const onCountrySelect = (value) => {
-   
     setSelectedCountry(value.value);
   };
+
   return (
- 
     <CovidStatsComponent
       collection={collection}
       selectedCountry={selectedCountry}

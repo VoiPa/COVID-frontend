@@ -1,18 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchByCountry } from '../../services/covid-stats';
 
-
-/* html su kazkokiais  htm elementais */
-
 const initialState = {
     collection: null,
     uniqCountries: null,
     loading: false,
     error: false,
 };
+
 const covidStatsSlice = createSlice({
     name: 'covidStatsReducer',
-    /* eslint-disable no-param-reassign */
     initialState,
     reducers: {
         setCollection(state, action) {
@@ -36,12 +33,11 @@ const covidStatsSlice = createSlice({
             state = initialState;
         },
     },
-    /* eslint-enable */
 });
 
-// Extract the action creators object and the reducer
+/* Extract the action creators object and the reducer */ 
 const { actions, reducer } = covidStatsSlice;
-// Extract and export each action creator by name
+/* Extract and export each action creator by name */ 
 export const {
     setCollection,
     setUniqCountries,
@@ -49,7 +45,8 @@ export const {
     setLoading,
     destroy
 } = actions;
-// Export the reducer, either as a default or named export
+
+/* Export the reducer, either as a default or named export */ 
 export default reducer;
 
 export const fetch = ({ country }) => async (dispatch, getState) => {
