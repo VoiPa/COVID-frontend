@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import { ResponsiveLine } from "@nivo/line";
+import Select from "../select/Select";
+import options from "../select/options";
 
 const CovidStatsComponent = ({ collection }) => {
   const [data, setData] = useState([]);
@@ -35,10 +37,16 @@ const CovidStatsComponent = ({ collection }) => {
           data: formatedDeaths,
         },
       ];
+
       setData(formatedData);
+
     }
   }, [collection]);
+
   return (
+    <>
+    <div className="select"><Select options={options}/></div>
+<div className="chart">
     <ResponsiveLine
       data={data}
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
@@ -50,14 +58,14 @@ const CovidStatsComponent = ({ collection }) => {
         stacked: false,
         reverse: false,
       }}
-      yFormat=" >-.0f"
+      yFormat=" >-.2f"
       curve="natural"
       axisRight={null}
       axisBottom={{
         orient: "bottom",
         tickSize: 5,
         tickPadding: 5,
-        tickRotation: 75,
+        tickRotation: 90,
         legend: "transportation",
         legendOffset: 51,
         legendPosition: "middle",
@@ -106,6 +114,8 @@ const CovidStatsComponent = ({ collection }) => {
         },
       ]}
     />
+    </div>
+    </>
   );
 };
 

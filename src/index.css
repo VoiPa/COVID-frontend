@@ -15,7 +15,17 @@ code {
 #root{
   padding: 20px;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
+}
+.select{
+  padding: 20px;
+  max-width: 300px;
+}
+.chart{
+  padding: 20px;
+  display:flex;
+  width: 100%;
+  height: 100vh;
 }
