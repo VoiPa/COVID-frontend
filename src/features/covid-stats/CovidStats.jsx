@@ -5,7 +5,9 @@ import Loader from "../../components/loader/Loader";
 import { fetch, destroy } from "./covidStatsSlice";
 
 const CovidStats = () => {
-  const { collection, loading } = useSelector((state) => state.covidStatsReducer);
+  const { collection, loading, uniqCountries } = useSelector(
+    (state) => state.covidStatsReducer
+  );
   const [selectedCountry, setSelectedCountry] = useState("Lithuania");
   const dispatch = useDispatch();
   useEffect(() => {
@@ -19,12 +21,13 @@ const CovidStats = () => {
   const onCountrySelect = (value) => {
     setSelectedCountry(value.value);
   };
-  if (loading || !collection) {
+  if (loading || !collection || !uniqCountries) {
     return <Loader />;
   }
   return (
     <CovidStatsComponent
       collection={collection}
+      countries={uniqCountries}
       selectedCountry={selectedCountry}
       onCountrySelect={onCountrySelect}
     />
