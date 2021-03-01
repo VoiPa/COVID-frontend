@@ -1,14 +1,43 @@
 import React, { useEffect, useState } from "react";
+import _ from "lodash";
 import { ResponsiveLine } from "@nivo/line";
-import data from "../data";
 
-const CovidStatsComponent = () => {
-  const [as, setData] = useState([]);
+const CovidStatsComponent = ({ collection }) => {
+  const [data, setData] = useState([]);
   useEffect(() => {
-    console.log(data);
-    const formatedData = data;
-    setData(formatedData);
-  }, []);
+    if (_.size(collection)) {
+      const rawCases = _.filter(
+        collection,
+        (item) => item.indicator === "cases"
+      );
+      const rawDeaths = _.filter(
+        collection,
+        (item) => item.indicator === "deaths"
+      );
+      const formatedCases = _.map(rawCases, (item) => ({
+        x: item.year_week,
+        y: item.weekly_count,
+      }));
+      const formatedDeaths = _.map(rawDeaths, (item) => ({
+        x: item.year_week,
+        y: item.weekly_count,
+      }));
+
+      const formatedData = [
+        {
+          id: "Cases",
+          color: "hsl(2, 70%, 50%)",
+          data: formatedCases,
+        },
+        {
+          id: "Death",
+          color: "hsl(300, 70%, 50%)",
+          data: formatedDeaths,
+        },
+      ];
+      setData(formatedData);
+    }
+  }, [collection]);
   return (
     <ResponsiveLine
       data={data}
@@ -18,20 +47,19 @@ const CovidStatsComponent = () => {
         type: "linear",
         min: "auto",
         max: "auto",
-        stacked: true,
+        stacked: false,
         reverse: false,
       }}
-      yFormat=" >-.2f"
+      yFormat=" >-.0f"
       curve="natural"
-      axisTop={null}
       axisRight={null}
       axisBottom={{
         orient: "bottom",
         tickSize: 5,
         tickPadding: 5,
-        tickRotation: 0,
+        tickRotation: 75,
         legend: "transportation",
-        legendOffset: 36,
+        legendOffset: 51,
         legendPosition: "middle",
       }}
       axisLeft={{
@@ -46,17 +74,19 @@ const CovidStatsComponent = () => {
       pointSize={10}
       pointColor={{ theme: "background" }}
       pointBorderWidth={2}
-      pointBorderColor={{ from: "serieColor" }}
-      pointLabelYOffset={-12}
+      pointBorderColor={{ from: "serieColor", modifiers: [] }}
+      enablePointLabel={true}
+      pointLabelYOffset={-16}
+      enableArea={true}
       useMesh={true}
       legends={[
         {
           anchor: "bottom-right",
           direction: "column",
           justify: false,
-          translateX: 100,
-          translateY: 0,
-          itemsSpacing: 0,
+          translateX: 107,
+          translateY: 15,
+          itemsSpacing: 5,
           itemDirection: "left-to-right",
           itemWidth: 80,
           itemHeight: 20,
